@@ -1,20 +1,28 @@
-import React, { Fragment } from "react";
+import React from "react";
 import styled from "styled-components";
 
-const StySpan = styled.div`
+const StyDiv = styled.div`
   display: inline-block;
   font-size: 0.9rem;
-  background-color: green;
+  background-color: #1864ab;
   border-radius: 4px;
-  width: 8rem;
-  margin: 0.2rem;
+  min-width: 6rem;
+  min-height: 1.5rem;
+  color: #fff;
+  text-align: center;
+  margin: 0.2rem 0 0 0.2rem;
+  padding: 0 0.1rem;
 `;
-function Label() {
+
+export interface TxtProps {
+  name: string;
+  value: string;
+}
+function Label({ name, value }: TxtProps) {
   return (
-    <Fragment>
-      <StySpan>ㅁㅁID: ASF343312</StySpan>
-      <StySpan>ㅁㅁID: ASF343312</StySpan>
-    </Fragment>
+    <StyDiv>
+      {name}: {value}
+    </StyDiv>
   );
 }
 
