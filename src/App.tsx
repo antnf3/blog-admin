@@ -1,9 +1,15 @@
-import React from "react";
+import React, { Fragment } from "react";
 import "./App.css";
 import Box from "./components/Box";
 
 function App() {
-  return <Box />;
+  return (
+    <Fragment>
+      <Box />
+      <Box />
+      <Box />
+    </Fragment>
+  );
 }
 
 export default App;

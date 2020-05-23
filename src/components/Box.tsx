@@ -2,9 +2,18 @@ import React, { useState, useEffect, Fragment } from "react";
 import styled from "styled-components";
 import Label, { TxtProps } from "./Label";
 
+const StyOutBox = styled.div`
+  margin: 0 1rem;
+`;
+const StyTitle = styled.h2`
+  color: #000;
+  font-size: 1.8rem;
+`;
 const StyBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   background-color: #69db7c;
-  max-width: 40rem;
+  max-width: 35rem;
   min-height: 5rem;
   margin-top: -0.8rem;
   border-radius: 4px;
@@ -33,14 +42,14 @@ function Box() {
   }, []);
 
   return (
-    <Fragment>
-      <h2>sss</h2>
+    <StyOutBox>
+      <StyTitle>sss</StyTitle>
       <StyBox>
         {text.map((tag) => (
           <Label key={tag.name} {...tag} />
         ))}
       </StyBox>
-    </Fragment>
+    </StyOutBox>
   );
 }
 
