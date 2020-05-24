@@ -19,34 +19,39 @@ const StyBox = styled.div`
   border-radius: 4px;
 `;
 
+const data = [
+  {
+    JOB_ID: "123",
+    COUPANG_ID: "2323",
+    SUB_ID: "ANDERSON",
+    TOKEN_SEQ: 7,
+    TOKEN_NM: "",
+    BLOG_TYPE: "6",
+    BLOG_TYPE_NM: "쇼핑2",
+    BLOG_NM: "네이버",
+    BLOG_CATEGORY: "ㅇㄴㄹㄴ",
+    BLOG_CATEGORY_NM: "33342",
+    PRODUCT_ID: "4523423424",
+    PRODUCT_NM: "국내쇼핑",
+    PD_OPT: "1022",
+    DAILY_LIMIT_CNT: 200,
+    DAILY_INTERVAL_MM: 10,
+    USE_YN: "Y",
+  },
+];
+
 function Box() {
-  const [text, setText] = useState<TxtProps[]>([]);
+  const [text, setText] = useState<any>({});
   useEffect(() => {
-    const data = [
-      { name: "ㅁㅁID1", value: "ADF345671234" },
-      { name: "ㅁㅁID2", value: "ADF345671234" },
-      { name: "ㅁㅁID3", value: "ADF345671234" },
-      { name: "ㅁㅁID4", value: "ADF345671234" },
-      { name: "ㅁㅁID5", value: "ADF345671234" },
-      { name: "ㅁㅁID6", value: "ADF345671234" },
-      { name: "ㅁㅁID7", value: "ADF345671234" },
-      { name: "ㅁㅁID8", value: "ADF345671234" },
-      { name: "ID9", value: "ADF3434" },
-      { name: "ID10", value: "ADF3434" },
-      { name: "ID11", value: "ADF3434" },
-      { name: "ID12", value: "ADF3434" },
-      { name: "ID13", value: "ADF3434" },
-      { name: "ID14", value: "ADF3434" },
-    ];
-    setText(data);
+    setText(data[0]);
   }, []);
 
   return (
     <StyOutBox>
       <StyTitle>sss</StyTitle>
       <StyBox>
-        {text.map((tag) => (
-          <Label key={tag.name} {...tag} />
+        {Object.keys(text).map((key) => (
+          <Label key={key} name={key} value={text[key]} />
         ))}
       </StyBox>
     </StyOutBox>
