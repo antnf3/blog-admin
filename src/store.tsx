@@ -2,6 +2,7 @@ import { configureStore, PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export const ADD = "ADD";
 export const DELETE = "DELETE";
+export const UPDATE = "UPDATE";
 
 export interface JobState {
   JOB_ID: string;

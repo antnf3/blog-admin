@@ -8,10 +8,10 @@ import store from "./store";
 
 const GlobalStyle = createGlobalStyle`
   #root {
-    display: flex;
+    /* display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center; */
   }
 `;
 ReactDOM.render(
