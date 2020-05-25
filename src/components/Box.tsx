@@ -1,13 +1,27 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React from "react";
 import styled from "styled-components";
-import Label, { TxtProps } from "./Label";
-
+import Label from "./Label";
+import { faEdit, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 const StyOutBox = styled.div`
   margin: 0 1rem;
 `;
-const StyTitle = styled.h2`
+const StyHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+const StyTitle = styled.h3`
   color: #000;
-  font-size: 1.8rem;
+`;
+const StyleHeaderRight = styled.div`
+  svg {
+    margin: 0 0.4rem;
+    font-size: 1.4rem;
+  }
 `;
 const StyBox = styled.div`
   display: flex;
@@ -19,39 +33,32 @@ const StyBox = styled.div`
   border-radius: 4px;
 `;
 
-const data = [
-  {
-    JOB_ID: "123",
-    COUPANG_ID: "2323",
-    SUB_ID: "ANDERSON",
-    TOKEN_SEQ: 7,
-    TOKEN_NM: "",
-    BLOG_TYPE: "6",
-    BLOG_TYPE_NM: "쇼핑2",
-    BLOG_NM: "네이버",
-    BLOG_CATEGORY: "ㅇㄴㄹㄴ",
-    BLOG_CATEGORY_NM: "33342",
-    PRODUCT_ID: "4523423424",
-    PRODUCT_NM: "국내쇼핑",
-    PD_OPT: "1022",
-    DAILY_LIMIT_CNT: 200,
-    DAILY_INTERVAL_MM: 10,
-    USE_YN: "Y",
-  },
-];
-
-function Box() {
-  const [text, setText] = useState<any>({});
-  useEffect(() => {
-    setText(data[0]);
-  }, []);
-
+function Box({ data }: any) {
+  const click = () => {
+    console.log("click");
+  };
   return (
     <StyOutBox>
-      <StyTitle>sss</StyTitle>
+      <StyHeader>
+        <StyTitle>{data.BLOG_NM}</StyTitle>
+        <StyleHeaderRight>
+          <FontAwesomeIcon
+            icon={faSyncAlt}
+            onClick={click}
+            style={{ cursor: "pointer", color: "red" }}
+          />
+          <Link to="/1234">
+            <FontAwesomeIcon icon={faEdit} />
+          </Link>
+          <Link to="/1235">
+            <FontAwesomeIcon icon={faTrashAlt} />
+          </Link>
+        </StyleHeaderRight>
+      </StyHeader>
+
       <StyBox>
-        {Object.keys(text).map((key) => (
-          <Label key={key} name={key} value={text[key]} />
+        {Object.keys(data).map((key) => (
+          <Label key={key} name={key} value={data[key]} />
         ))}
       </StyBox>
     </StyOutBox>

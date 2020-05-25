@@ -15,7 +15,7 @@ const StyDiv = styled.div`
   padding: 0 0.1rem;
 `;
 
-export interface TxtProps {
+interface TxtProps {
   name: string;
   value: string;
 }
