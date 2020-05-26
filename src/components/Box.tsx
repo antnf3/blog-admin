@@ -14,7 +14,7 @@ function Box({ data }: any) {
   };
   return (
     <TmpBoxOutline>
-      <TmpBoxHeader title={data.BLOG_NM}>
+      <TmpBoxHeader title={`${data.BLOG_TYPE_NM} - ${data.TOKEN_NM}`}>
         <Link to="/1234">
           <FontAwesomeIcon
             icon={faSyncAlt}
