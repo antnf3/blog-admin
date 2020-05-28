@@ -1,4 +1,12 @@
-import { configureStore, PayloadAction, createSlice } from "@reduxjs/toolkit";
+// import {
+//   configureStore,
+//   PayloadAction,
+//   createSlice,
+//   createStore,
+// } from "@reduxjs/toolkit";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import axios from "axios";
 
 export const ADD = "ADD";
 export const DELETE = "DELETE";
@@ -23,56 +31,124 @@ export interface JobState {
   DAILY_INTERVAL_MM: number;
   USE_YN: string;
 }
-const initialJobState: JobState[] = [
-  {
-    JOB_ID: "123",
-    COUPANG_ID: "2323",
-    SUB_ID: "ANDERSON",
-    TOKEN_SEQ: 7,
-    TOKEN_NM: "",
-    BLOG_TYPE: "6",
-    BLOG_TYPE_NM: "쇼핑2",
-    BLOG_NM: "네이버",
-    BLOG_CATEGORY: "ㅇㄴㄹㄴ",
-    BLOG_CATEGORY_NM: "33342",
-    PRODUCT_ID: "4523423424",
-    PRODUCT_NM: "국내쇼핑",
-    PD_OPT: "1022",
-    DAILY_LIMIT_CNT: 200,
-    DAILY_INTERVAL_MM: 10,
-    USE_YN: "Y",
-  },
-  {
-    JOB_ID: "1234",
-    COUPANG_ID: "2323",
-    SUB_ID: "ANDERSON",
-    TOKEN_SEQ: 7,
-    TOKEN_NM: "",
-    BLOG_TYPE: "6",
-    BLOG_TYPE_NM: "쇼핑2",
-    BLOG_NM: "네이버",
-    BLOG_CATEGORY: "ㅇㄴㄹㄴ",
-    BLOG_CATEGORY_NM: "33342",
-    PRODUCT_ID: "4523423424",
-    PRODUCT_NM: "국내쇼핑",
-    PD_OPT: "1022",
-    DAILY_LIMIT_CNT: 200,
-    DAILY_INTERVAL_MM: 10,
-    USE_YN: "Y",
-  },
-];
+// const initialJobState: JobState[] = [
+//   {
+//     JOB_ID: "123",
+//     COUPANG_ID: "2323",
+//     SUB_ID: "ANDERSON",
+//     TOKEN_SEQ: 7,
+//     TOKEN_NM: "",
+//     BLOG_TYPE: "6",
+//     BLOG_TYPE_NM: "쇼핑2",
+//     BLOG_NM: "네이버",
+//     BLOG_CATEGORY: "ㅇㄴㄹㄴ",
+//     BLOG_CATEGORY_NM: "33342",
+//     PRODUCT_ID: "4523423424",
+//     PRODUCT_NM: "국내쇼핑",
+//     PD_OPT: "1022",
+//     DAILY_LIMIT_CNT: 200,
+//     DAILY_INTERVAL_MM: 10,
+//     USE_YN: "Y",
+//   },
+//   {
+//     JOB_ID: "1234",
+//     COUPANG_ID: "2323",
+//     SUB_ID: "ANDERSON",
+//     TOKEN_SEQ: 7,
+//     TOKEN_NM: "",
+//     BLOG_TYPE: "6",
+//     BLOG_TYPE_NM: "쇼핑2",
+//     BLOG_NM: "네이버",
+//     BLOG_CATEGORY: "ㅇㄴㄹㄴ",
+//     BLOG_CATEGORY_NM: "33342",
+//     PRODUCT_ID: "4523423424",
+//     PRODUCT_NM: "국내쇼핑",
+//     PD_OPT: "1022",
+//     DAILY_LIMIT_CNT: 200,
+//     DAILY_INTERVAL_MM: 10,
+//     USE_YN: "Y",
+//   },
+// ];
 
-// createSlice
-const toDos = createSlice({
-  name: "jobReducer",
-  initialState: initialJobState,
-  reducers: {
-    add: (state: JobState[], action: PayloadAction<string>) => [...state],
-    remove: (state: JobState[], action: PayloadAction<number>) => [...state],
-  },
+// // createSlice
+// const toDos = createSlice({
+//   name: "jobReducer",
+//   initialState: initialJobState,
+//   reducers: {
+//     add: (state: JobState[], action: PayloadAction<string>) => [...state],
+//     remove: (state: JobState[], action: PayloadAction<number>) => [...state],
+//   },
+// });
+
+// const store = configureStore({ reducer: toDos.reducer });
+// // export { addToDo, deleteToDo };
+
+// export const { add, remove } = toDos.actions;
+// export default store;
+
+const QUERY = "QUERY";
+const QUERY_STARTED = "QUERY_STARTED";
+const QUERY_SUCCESS = "QUERY_SUCCESS";
+const QUERY_FAILURE = "QUERY_FAILURE";
+
+export const query = () => {
+  return (dispatch: any) => {
+    dispatch(queryStarted());
+    axios
+      .request({
+        method: "get",
+        url: `http://localhost:8000/home`,
+        data: {
+          mapFile: "index.search",
+          inData: { USER_ID: "k947114585", USE_YN: "Y" },
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        return dispatch(querySuccess(res.data));
+      })
+      .catch((err) => dispatch(queryFailure(err)));
+  };
+};
+const queryStarted = () => ({ type: QUERY_STARTED });
+const querySuccess = (list: any) => ({
+  type: QUERY_SUCCESS,
+  payload: [...list],
+});
+const queryFailure = (error: any) => ({
+  type: QUERY_FAILURE,
+  payload: { error },
 });
 
-const store = configureStore({ reducer: toDos.reducer });
-// export { addToDo, deleteToDo };
-export const { add, remove } = toDos.actions;
-export default store;
+const init = {
+  loading: false,
+  arrList: [],
+  error: null,
+};
+const axiosReducer = (state = init, action: any) => {
+  switch (action.type) {
+    case QUERY:
+      return action.payload;
+    case QUERY_STARTED:
+      return {
+        ...state,
+        loading: true,
+      };
+    case QUERY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        arrList: [...action.payload],
+      };
+    case QUERY_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      };
+  }
+};
+const axiosStore = createStore(axiosReducer, applyMiddleware(thunk));
+
+export default axiosStore;

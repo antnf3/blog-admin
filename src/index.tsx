@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./components/App";
 import { createGlobalStyle } from "styled-components";
 import { Provider } from "react-redux";
-import store from "./store";
+import axiosStore from "./store";
 
 const GlobalStyle = createGlobalStyle`
   #root {
@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={axiosStore}>
     <React.StrictMode>
       <GlobalStyle />
       <App />
