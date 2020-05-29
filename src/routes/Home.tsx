@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import Box from "../components/Box";
 import { connect } from "react-redux";
 import { JobState, query } from "../store";
@@ -21,22 +21,9 @@ function Home({ data, query }: HomeProps) {
     query();
   }, []);
 
-  // const fetch = async () => {
-  //   const response: AxiosResponse = await axios.request({
-  //     method: "get",
-  //     url: `http://localhost:8000/home`,
-  //     data: {
-  //       mapFile: "index.search",
-  //       inData: { USER_ID: "k947114585", USE_YN: "Y" },
-  //     },
-  //   });
-  //   console.log(response.data);
-  //   setData1(response.data);
-  //   return response.data;
-  // };
   return (
     <Template title={"작업목록"}>
-      {data?.arrList.map((str: any) => (
+      {data?.arrList.map((str: JobState) => (
         <Box key={str.JOB_ID} data={str} />
       ))}
     </Template>
