@@ -91,23 +91,23 @@ const QUERY_STARTED = "QUERY_STARTED";
 const QUERY_SUCCESS = "QUERY_SUCCESS";
 const QUERY_FAILURE = "QUERY_FAILURE";
 
-export const query = () => {
-  return (dispatch: any) => {
+interface ParamsProps {
+  mapFile: string;
+  inData: {} | [];
+}
+export const query = (params?: ParamsProps) => {
+  return async (dispatch: any) => {
     dispatch(queryStarted());
-    axios
-      .request({
-        method: "get",
+    try {
+      const res = await axios.request({
+        method: "post",
         url: `http://localhost:8000/home`,
-        data: {
-          mapFile: "index.search",
-          inData: { USER_ID: "k947114585", USE_YN: "Y" },
-        },
-      })
-      .then((res) => {
-        // console.log(res.data);
-        return dispatch(querySuccess(res.data));
-      })
-      .catch((err) => dispatch(queryFailure(err)));
+        data: params,
+      });
+      return dispatch(querySuccess(res.data));
+    } catch (err) {
+      return dispatch(queryFailure(err));
+    }
   };
 };
 const queryStarted = () => ({ type: QUERY_STARTED });
