@@ -7,6 +7,28 @@ import { Link } from "react-router-dom";
 import TmpBoxHeader from "./layout/TmpBoxHeader";
 import TmpBoxOutline from "./layout/TmpBoxOutline";
 import TmpBoxList from "./layout/TmpBoxList";
+import styled, { keyframes, css } from "styled-components";
+
+interface StyRunBtnProps {
+  running: string;
+}
+const btnRotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+const StyRunBtn = styled(FontAwesomeIcon)<StyRunBtnProps>`
+  cursor: pointer;
+  color: red;
+  ${(props) =>
+    props.running === "Y" &&
+    css`
+      animation: ${btnRotate} 2s linear infinite;
+    `}
+`;
 
 function Box({ data }: any) {
   const click = () => {
@@ -16,11 +38,7 @@ function Box({ data }: any) {
     <TmpBoxOutline>
       <TmpBoxHeader title={`${data.BLOG_TYPE_NM} - ${data.TOKEN_NM}`}>
         <Link to="/1234">
-          <FontAwesomeIcon
-            icon={faSyncAlt}
-            onClick={click}
-            style={{ cursor: "pointer", color: "red" }}
-          />
+          <StyRunBtn icon={faSyncAlt} onClick={click} running={data.USE_YN} />
         </Link>
         <Link to="/1234">
           <FontAwesomeIcon icon={faEdit} />
