@@ -10,7 +10,7 @@ interface HomeProps extends RouteComponentProps<any> {
   query: any;
 }
 function Home({ data, query }: HomeProps) {
-  console.log(data);
+  // console.log(data);
   // const [data1, setData1] = useState([]);
   // useEffect(() => {
   //   console.log("init");

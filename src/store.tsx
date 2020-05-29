@@ -104,7 +104,7 @@ export const query = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         return dispatch(querySuccess(res.data));
       })
       .catch((err) => dispatch(queryFailure(err)));
