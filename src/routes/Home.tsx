@@ -23,7 +23,6 @@ function Home({ data, query }: HomeProps) {
       }
     });
   }, []);
-  console.log(listData);
   return (
     <Template title={"작업목록"}>
       {listData.map((str: JobState) => (

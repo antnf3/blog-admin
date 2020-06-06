@@ -8,6 +8,8 @@ import TmpBoxHeader from "./layout/TmpBoxHeader";
 import TmpBoxOutline from "./layout/TmpBoxOutline";
 import TmpBoxList from "./layout/TmpBoxList";
 import styled, { keyframes, css } from "styled-components";
+import { connect } from "react-redux";
+import { query } from "../store";
 
 interface StyRunBtnProps {
   running: string;
@@ -30,20 +32,27 @@ const StyRunBtn = styled(FontAwesomeIcon)<StyRunBtnProps>`
     `}
 `;
 
-function Box({ data }: any) {
-  const click = () => {
-    console.log("click");
+function Box({ data, onBtnClick }: any) {
+  const click = (jobId: string, useYn: string) => async () => {
+    const params = {
+      mapFile: "index.update",
+      inData: { JOB_ID: jobId, USE_YN: useYn === "N" ? "Y" : "N" },
+    };
+    const res = await onBtnClick(params);
+    console.log(res);
   };
   return (
     <TmpBoxOutline>
       <TmpBoxHeader title={`${data.BLOG_TYPE_NM} - ${data.TOKEN_NM}`}>
-        <Link to="/1234">
-          <StyRunBtn icon={faSyncAlt} onClick={click} running={data.USE_YN} />
-        </Link>
-        <Link to="/1234">
+        <StyRunBtn
+          icon={faSyncAlt}
+          onClick={click(data.JOB_ID, data.USE_YN)}
+          running={data.USE_YN}
+        />
+        <Link to={`/${data.JOB_ID}`}>
           <FontAwesomeIcon icon={faEdit} />
         </Link>
-        <Link to="/1235">
+        <Link to={`/${data.JOB_ID}`}>
           <FontAwesomeIcon icon={faTrashAlt} />
         </Link>
       </TmpBoxHeader>
@@ -56,4 +65,8 @@ function Box({ data }: any) {
   );
 }
 
-export default Box;
+function mapDispatchToProps(dispatch: any) {
+  return { onBtnClick: (params: any) => dispatch(query(params)) };
+}
+
+export default connect(null, mapDispatchToProps)(Box);
