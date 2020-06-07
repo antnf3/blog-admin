@@ -14,7 +14,10 @@ const StyDiv = styled.div`
   margin: 0.2rem 0 0 0.2rem;
   padding: 0 0.1rem;
 `;
-
+const StyLableNm = styled.span`
+  color: #ffe066;
+  font-weight: 600;
+`;
 interface TxtProps {
   name: string;
   value: string;
@@ -22,7 +25,7 @@ interface TxtProps {
 function Label({ name, value }: TxtProps) {
   return (
     <StyDiv>
-      {name}: {value}
+      {name}: <StyLableNm>{value}</StyLableNm>
     </StyDiv>
   );
 }

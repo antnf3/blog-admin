@@ -104,16 +104,16 @@ export const query = (params?: ParamsProps) => {
         url: `http://localhost:8000/home`,
         data: params,
       });
-      return dispatch(querySuccess(res.data));
+      return dispatch(querySuccess(res));
     } catch (err) {
       return dispatch(queryFailure(err));
     }
   };
 };
 const queryStarted = () => ({ type: QUERY_STARTED });
-const querySuccess = (list: any) => ({
+const querySuccess = (res: any) => ({
   type: QUERY_SUCCESS,
-  payload: [...list],
+  payload: { data: res.data },
 });
 const queryFailure = (error: any) => ({
   type: QUERY_FAILURE,
@@ -122,7 +122,7 @@ const queryFailure = (error: any) => ({
 
 const init = {
   loading: false,
-  arrList: [],
+  arrList: {},
   error: null,
 };
 const axiosReducer = (state = init, action: any) => {
@@ -139,7 +139,7 @@ const axiosReducer = (state = init, action: any) => {
         ...state,
         loading: false,
         error: null,
-        arrList: [...action.payload],
+        arrList: action.payload,
       };
     case QUERY_FAILURE:
       return {

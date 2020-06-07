@@ -41,7 +41,8 @@ function BoxDetail(props: any) {
 }
 
 function mapStateToProps(state: any, ownProps: any) {
-  const oneJob = state?.arrList.filter(
+  // console.log(state);
+  const oneJob = state?.arrList.data.filter(
     (job: any) => job.JOB_ID === ownProps.id
   );
   return { data: oneJob };
