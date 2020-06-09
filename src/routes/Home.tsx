@@ -13,29 +13,33 @@ interface HomeProps extends RouteComponentProps<any> {
 
 function Home({ state, query }: HomeProps) {
   const [listData, setListData] = useState([]);
+  const [search, setSearch] = useState(() => {});
+
   useEffect(() => {
-    search();
-  }, []);
+    const search = async () => {
+      const params = {
+        mapFile: "index.search",
+        inData: { USER_ID: "k947114585", USE_YN: "Y" },
+      };
 
-  const search = async () => {
-    const params = {
-      mapFile: "index.search",
-      inData: { USER_ID: "k947114585", USE_YN: "Y" },
+      const res = await query(params);
+      if (res.type === "QUERY_SUCCESS") {
+        setListData(() => {
+          return res.payload.data;
+        });
+      }
     };
-
-    const res = await query(params);
-    if (res.type === "QUERY_SUCCESS") {
-      setListData(res.payload.data);
-    }
-  };
+    setSearch(() => search);
+    search();
+  }, [query]);
 
   if (!state || state.loading) {
     return <Loading />;
   }
   return (
     <Template title={"작업목록"}>
-      {listData.map((str: JobState) => (
-        <Box key={str.JOB_ID} data={str} onSearch={() => search()} />
+      {listData?.map((str: JobState) => (
+        <Box key={str.JOB_ID} data={str} onSearch={search} />
       ))}
     </Template>
   );
